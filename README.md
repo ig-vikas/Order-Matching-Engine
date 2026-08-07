@@ -92,15 +92,20 @@ FastAPI Layer  ────────────► Exchange Orchestrator (pe
 
 ## Quick Start
 
+For detailed step-by-step setup instructions, Docker setup, and troubleshooting, see **[`SETUP.md`](SETUP.md)**.
+
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
 # Run the server
-uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
+
+# Open Web Trading Terminal
+# http://127.0.0.1:8000/app
 
 # Open Swagger docs
-# http://localhost:8000/docs
+# http://127.0.0.1:8000/docs
 ```
 
 ## Run Tests

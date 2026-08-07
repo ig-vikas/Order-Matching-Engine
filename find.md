@@ -51,4 +51,5 @@
 * **[`tests/test_persistence.py`](tests/test_persistence.py)**: 10 database storage and lookup tests.
 * **[`tests/test_analytics.py`](tests/test_analytics.py)**: 7 tests for VWAP and volume rankings.
 * **[`tests/test_api.py`](tests/test_api.py)**: 17 API endpoint tests.
-* **[`tests/test_invariants.py`](tests/test_invariants.py)**: 9 property-based invariant tests (Hypothesis).
+* **[`SETUP.md`](SETUP.md)**: Complete step-by-step installation, running, Docker, testing, and UI guide.
+* **[`README.md`](README.md)**: Project architecture, feature overview, and tech stack.

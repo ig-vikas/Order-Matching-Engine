@@ -152,9 +152,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+# Static files directory
+_STATIC_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "static"))
+if os.path.exists(_STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=_STATIC_DIR), name="static")
+
 # Register routes
 app.include_router(api_routes.router, prefix="/api/v1")
 app.include_router(ws_routes.router)
+
+
+@app.get("/app", include_in_schema=False)
+async def web_app():
+    """Serve the Web Trading Terminal application."""
+    index_file = os.path.join(_STATIC_DIR, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return {"error": "Static UI files not found"}
 
 
 # Root endpoint — Returns JSON status & links
@@ -165,6 +182,7 @@ async def root():
         "service": settings.api_title,
         "version": settings.api_version,
         "status": "online",
+        "web_terminal": "/app",
         "documentation": {
             "swagger_ui": "/docs",
             "redoc": "/redoc"

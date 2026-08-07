@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Matching Engine — Web Trading Terminal</title>
+  <meta name="description" content="Production-Grade Multi-Symbol Stock Exchange Order Matching Engine with Real-Time Order Book Depth and Analytics.">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- Navbar Header -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">⚡</div>
+      <div>
+        <h1 class="brand-title">MatchingEngine<span style="color: var(--accent-cyan)">.io</span></h1>
+      </div>
+      <span class="brand-tag">v1.0 Pro</span>
+    </div>
+
+    <div class="nav-controls">
+      <div class="symbol-selector" id="symbol-selector">
+        <!-- Dynamically populated symbol buttons -->
+      </div>
+      <div class="ws-status">
+        <div class="status-dot" id="ws-status-dot"></div>
+        <span id="ws-status-text">DISCONNECTED</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Market Stats Bar -->
+  <section class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">Active Instrument</div>
+      <div class="stat-value" id="current-symbol-header">AAPL</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Last Price</div>
+      <div class="stat-value" id="stat-price" style="color: var(--accent-cyan)">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">24h VWAP</div>
+      <div class="stat-value" id="stat-vwap" style="color: var(--accent-purple)">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">24h Traded Volume</div>
+      <div class="stat-value" id="stat-volume">—</div>
+    </div>
+  </section>
+
+  <!-- Main Trading Layout -->
+  <main class="dashboard-grid">
+
+    <!-- Left Panel: Order Book Ladder -->
+    <section class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📊 Order Book Depth</span>
+        </div>
+      </div>
+      <div class="orderbook-container">
+        <div class="ob-header">
+          <span>Price ($)</span>
+          <span style="text-align: center">Qty</span>
+          <span style="text-align: right">Orders</span>
+        </div>
+        
+        <!-- Asks (Sells) -->
+        <div class="ob-asks" id="ob-asks">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Spread Divider -->
+        <div class="spread-row">
+          <span class="spread-label">Spread</span>
+          <span class="spread-value" id="spread-value">—</span>
+        </div>
+
+        <!-- Bids (Buys) -->
+        <div class="ob-bids" id="ob-bids">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Middle Panel: Price Chart & Recent Trades -->
+    <section class="panel chart-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📈 Real-Time Price Action & Executions</span>
+        </div>
+      </div>
+
+      <!-- Canvas Price Chart -->
+      <div class="canvas-wrapper">
+        <canvas id="price-chart"></canvas>
+      </div>
+
+      <!-- Trade History Feed -->
+      <div style="border-top: 1px solid var(--border-color);">
+        <div class="panel-header" style="background: transparent;">
+          <div class="panel-title" style="font-size: 0.85rem;">
+            <span>⚡ Live Trade Stream</span>
+          </div>
+        </div>
+        <div class="trade-feed" id="trade-feed">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Panel: Order Entry Form -->
+    <section class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📝 Order Entry</span>
+        </div>
+      </div>
+
+      <div class="order-entry-panel">
+        <!-- Side Toggle (BUY / SELL) -->
+        <div class="side-toggle">
+          <button type="button" class="side-btn buy active" id="btn-side-buy">BUY</button>
+          <button type="button" class="side-btn sell" id="btn-side-sell">SELL</button>
+        </div>
+
+        <!-- Order Type Tabs -->
+        <div class="type-tabs">
+          <button type="button" class="type-tab active" data-type="LIMIT">LIMIT</button>
+          <button type="button" class="type-tab" data-type="MARKET">MARKET</button>
+          <button type="button" class="type-tab" data-type="IOC">IOC</button>
+          <button type="button" class="type-tab" data-type="FOK">FOK</button>
+        </div>
+
+        <!-- Submission Form -->
+        <form id="order-form">
+          <div class="form-group" id="price-group">
+            <label class="form-label" for="order-price">
+              <span>Limit Price</span>
+              <span>USD</span>
+            </label>
+            <input type="number" step="0.01" min="0.01" class="form-input" id="order-price" placeholder="150.00" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="order-qty">
+              <span>Quantity</span>
+              <span>Shares</span>
+            </label>
+            <input type="number" min="1" class="form-input" id="order-qty" placeholder="100" required value="100">
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">
+            Buy AAPL
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
